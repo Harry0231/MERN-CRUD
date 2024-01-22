@@ -20,7 +20,7 @@ export const registerController = async (req, res) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
+    const hashedPassword = await bcrypt.hash(password, 10); 
     const data = await new userModel({
       name,
       email,
@@ -93,63 +93,17 @@ export const loginController = async (req, res) => {
 };
 
 
-export const getAllData = async (req, res) => {
+export const getuserDataController = async (req, res) => {
+  const { id } = req.params;
   try {
-    const allUsers = await userModel.find();
-
-    res.status(200).send({
-      success: true,
-      message: "All user data retrieved successfully",
-      data: allUsers,
-    });
+    const data = await dataModel.findById(id);
+    if (!data) {
+      return res.status(404).json({ message: "Data not found" });
+    }
+    res.status(200).json(data);
   } catch (error) {
     console.error(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in fetching user data",
-      error,
-    });
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
-export const updateController = async (req, res) => {
-  try {
-    const userId = req.params.id;
-    const { name, email, phone, address, gender } = req.body;
-
-    if (!name || !email || !phone || !address || !gender) {
-      return res
-        .status(400)
-        .send({ success: false, message: "All fields are required" });
-    }
-
-    const user = await userModel.findById(userId);
-
-    if (!user) {
-      return res
-        .status(404)
-        .send({ success: false, message: "User not found" });
-    }
-
-    user.name = name;
-    user.email = email;
-    user.phone = phone;
-    user.address = address;
-    user.gender = gender;
-
-    const updatedUser = await user.save();
-
-    res.status(200).send({
-      success: true,
-      message: "User data updated successfully",
-      data: updatedUser,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send({
-      success: false,
-      message: "Error in updating user data",
-      error,
-    });
-  }
-};

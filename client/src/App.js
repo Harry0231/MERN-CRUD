@@ -31,13 +31,15 @@ function App() {
   const [deleteRecordId, setDeleteRecordId] = useState(null);
   const [resetKey, setResetKey] = useState(0);
 
+  const getRowId = (row) => row._id;
+
   useEffect(() => {
     axios
-      .get("http://localhost:3001/users")
+      .get("http://localhost:8080/data")
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setColumns([
-            { field: "id", headerName: "Id", width: 100 },
+            // Exclude the ID column
             { field: "name", headerName: "Name", width: 150 },
             { field: "email", headerName: "E-mail", width: 200 },
             {
@@ -51,7 +53,7 @@ function App() {
                     justifyContent: "space-around",
                   }}
                 >
-                  <Link to={`/update/${params.row.id}`}>
+                  <Link to={`/update/${params.row._id}`}>
                     <EditIcon color="primary" style={{ marginRight: 20 }} />
                   </Link>
                   <InfoIcon
@@ -61,7 +63,7 @@ function App() {
                   />
                   <DeleteIcon
                     color="error"
-                    onClick={() => handleOpenDeleteDialog(params.row.id)}
+                    onClick={() => handleOpenDeleteDialog(params.row._id)}
                   />
                 </div>
               ),
@@ -97,12 +99,11 @@ function App() {
   const handleDeleteConfirmed = async () => {
     if (deleteRecordId) {
       try {
-        await axios.delete(`http://localhost:3001/users/${deleteRecordId}`);
+        await axios.delete(`http://localhost:8080/data/${deleteRecordId}`);
         toast.success("Data deleted");
 
-        // Update the state to trigger a re-render
         setRecords((prevRecords) =>
-          prevRecords.filter((record) => record.id !== deleteRecordId)
+          prevRecords.filter((record) => record._id !== deleteRecordId)
         );
 
         handleCloseDeleteDialog();
@@ -126,6 +127,7 @@ function App() {
           key={resetKey}
           rows={records}
           columns={columns}
+          getRowId={getRowId}
           pageSize={7}
           pageSizeOptions={[5, 10, 25, 50, 100]}
           components={{
@@ -146,7 +148,6 @@ function App() {
         <DialogContent>
           {selectedRecord && (
             <div>
-              <DialogContentText>ID: {selectedRecord.id}</DialogContentText>
               <DialogContentText>Name: {selectedRecord.name}</DialogContentText>
               <DialogContentText>
                 Email: {selectedRecord.email}

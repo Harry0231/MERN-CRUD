@@ -1,16 +1,12 @@
 import express from "express";
-import { getAllData, loginController, registerController, updateController } from "../controllers/userController.js";
+import {  getuserDataController, loginController, registerController } from "../controllers/userController.js";
 
 const router = express.Router();
 
 // Register route
 router.post("/register", registerController);
 
-router.get("/register", getAllData);
-
-router.patch("/register/:id", updateController);
-
-
+router.get("/profile/:id", getuserDataController);
 
 
 //LOGIN || POST

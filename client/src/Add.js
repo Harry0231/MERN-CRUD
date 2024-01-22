@@ -10,16 +10,25 @@ const Add = () => {
   const [inputdata, setInputData] = useState({ name: "", email: "" });
   const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    axios
-      .post("http://localhost:3001/users", inputdata)
-      .then((res) => {
-        toast.success("Data added");
-        navigate("/");
-      })
-      .catch((err) => console.log(err));
+    try {
+      // Check if the email already exists
+      const existingData = await axios.get("http://localhost:8080/data");
+      if (existingData.data.some((data) => data.email === inputdata.email)) {
+        toast.warning("Email already exists. Please use a different email.");
+        return;
+      }
+
+      // If email is unique, proceed with the POST request
+      await axios.post("http://localhost:8080/data", inputdata);
+      toast.success("Data added");
+      navigate("/");
+    } catch (error) {
+      console.error("Error adding data:", error);
+      toast.error("Error adding data");
+    }
   }
 
   return (

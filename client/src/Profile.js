@@ -12,14 +12,18 @@ const Profile = () => {
     // Fetch user data based on the currently logged-in username
     const username = sessionStorage.getItem("username");
 
-    if (username) {
-      axios
-        .get(`http://localhost:3001/user/${username}`)
-        .then((res) => {
-          setUserData(res.data);
-        })
-        .catch((err) => console.error("Error fetching user data:", err));
+    if (!username) {
+      // Handle the case when there's no username in session storage
+      console.error("No username found in session storage");
+      return;
     }
+
+    axios
+      .get(`http://localhost:3001/user/${username}`)
+      .then((res) => {
+        setUserData(res.data);
+      })
+      .catch((err) => console.error("Error fetching user data:", err));
   }, [location]);
 
   return (
