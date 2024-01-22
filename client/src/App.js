@@ -39,7 +39,6 @@ function App() {
       .then((res) => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setColumns([
-            // Exclude the ID column
             { field: "name", headerName: "Name", width: 150 },
             { field: "email", headerName: "E-mail", width: 200 },
             {

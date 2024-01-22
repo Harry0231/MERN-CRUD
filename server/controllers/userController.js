@@ -93,7 +93,7 @@ export const loginController = async (req, res) => {
 };
 
 
-export const getuserDataController = async (req, res) => {
+export const getUserDataController = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await dataModel.findById(id);
