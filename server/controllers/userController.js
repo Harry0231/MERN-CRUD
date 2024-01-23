@@ -93,17 +93,4 @@ export const loginController = async (req, res) => {
 };
 
 
-export const getUserDataController = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const data = await dataModel.findById(id);
-    if (!data) {
-      return res.status(404).json({ message: "Data not found" });
-    }
-    res.status(200).json(data);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server Error" });
-  }
-};
 
