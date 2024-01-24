@@ -13,10 +13,10 @@ import Appheader from "./Appheader";
 const AppRouter = () => {
   return (
     <div className="App">
-      <ToastContainer theme="colored" position="top-center"></ToastContainer>
+      <ToastContainer theme="light" position="top-right"></ToastContainer>
 
       <BrowserRouter>
-        <Appheader></Appheader>
+        <Appheader/>
         <Routes>
           <Route path="/" element={<App />} />
           <Route path="/create" element={<Add />} />
@@ -27,7 +27,6 @@ const AppRouter = () => {
         </Routes>
       </BrowserRouter>
     </div>
-    
   );
 };
 
