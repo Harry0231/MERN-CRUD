@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Typography, Box, Paper, Grid, Avatar } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Paper,
+  Grid,
+  Avatar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from "@mui/material";
 import Button from "@mui/material/Button";
 
 const Profile = () => {
@@ -11,6 +21,15 @@ const Profile = () => {
   const gender = sessionStorage.getItem("gender");
   const address = sessionStorage.getItem("address");
   const profilePic = sessionStorage.getItem("profilePic");
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   return (
     <Box
@@ -31,7 +50,8 @@ const Profile = () => {
                 <Avatar
                   src={`data:image/jpeg;base64,${profilePic}`}
                   alt="User Avatar"
-                  style={{ width: 100, height: 100 }}
+                  style={{ width: 100, height: 100, cursor: "pointer" }}
+                  onClick={handleOpenModal}
                 />
               )}
             </Grid>
@@ -60,6 +80,21 @@ const Profile = () => {
           Back
         </Button>
       </Link>
+      <Dialog open={openModal} onClose={handleCloseModal}>
+        <DialogTitle>{name}</DialogTitle>
+        <DialogContent>
+          <Avatar
+            src={`data:image/jpeg;base64,${profilePic}`}
+            alt="User Avatar"
+            style={{ width: 200, height: 200 }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseModal} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

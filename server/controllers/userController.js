@@ -20,18 +20,16 @@ export const registerController = async (req, res) => {
       });
     }
 
-    // Check if file is provided
-    if (!req.file) {
-      return res.status(400).send({ message: "Profile picture is required" });
+    // Handle image upload if provided
+    let profilePic;
+    if (req.file) {
+      profilePic = req.file.buffer;
     }
-
-    // Handle image upload
-    const profilePic = req.file.buffer;
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10); 
 
-    // Save user with image
+    // Save user with or without image
     const data = await new userModel({
       name,
       email,
@@ -56,6 +54,7 @@ export const registerController = async (req, res) => {
     });
   }
 };
+
 
 export const loginController = async (req, res) => {
   try {
