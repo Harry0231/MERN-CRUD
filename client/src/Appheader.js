@@ -31,7 +31,7 @@ function AppHeader() {
       setShowMenu(false);
     } else {
       setShowMenu(true);
-      const username = sessionStorage.getItem("username");
+      const username = sessionStorage.getItem("name");
       if (!username) {
         navigate("/login");
       } else {
@@ -54,7 +54,11 @@ function AppHeader() {
   };
 
   const handleLogout = () => {
-    sessionStorage.removeItem("username");
+    sessionStorage.removeItem("name");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("address");
+    sessionStorage.removeItem("phone");
+    sessionStorage.removeItem("gender");
     toast.success(`${displayUsername} Logout successful`);
     navigate("/login");
   };

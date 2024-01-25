@@ -75,6 +75,7 @@ const Register = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
         toast.success("Registered successfully.");
         navigate("/login");
       } else {

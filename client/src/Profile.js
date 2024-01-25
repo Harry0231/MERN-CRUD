@@ -1,30 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import { Typography, Box, Paper, Grid } from "@mui/material";
-import axios from "axios";
 import Button from "@mui/material/Button";
 
 const Profile = () => {
-  const [userData, setUserData] = useState(null);
-  const location = useLocation();
+  // Retrive users detail from session storage
 
-  useEffect(() => {
-    // Fetch user data based on the currently logged-in username
-    const username = sessionStorage.getItem("username");
-
-    if (!username) {
-      // Handle the case when there's no username in session storage
-      console.error("No username found in session storage");
-      return;
-    }
-
-    axios
-      .get(`http://localhost:3001/user/${username}`)
-      .then((res) => {
-        setUserData(res.data);
-      })
-      .catch((err) => console.error("Error fetching user data:", err));
-  }, [location]);
+  const name = sessionStorage.getItem("name");
+  const email = sessionStorage.getItem("email");
+  const phone = sessionStorage.getItem("phone");
+  const gender = sessionStorage.getItem("gender");
+  const address = sessionStorage.getItem("address");
 
   return (
     <Box
@@ -37,32 +23,23 @@ const Profile = () => {
       <Typography variant="h4" gutterBottom>
         Profile
       </Typography>
-      {userData ? (
+      {name ? (
         <Paper elevation={3} style={{ padding: "20px", maxWidth: "600px" }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="h6">Username: {userData.id}</Typography>
+              <Typography variant="body1">Full Name: {name}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="body1">
-                Full Name: {userData.name}
-              </Typography>
+              <Typography variant="body1">Email: {email}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="body1">Email: {userData.email}</Typography>
+              <Typography variant="body1">Phone No: {phone}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="body1">
-                Phone No: {userData.phone}
-              </Typography>
+              <Typography variant="body1">Address: {address}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="body1">
-                Address: {userData.address}
-              </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1">Gender: {userData.gender}</Typography>
+              <Typography variant="body1">Gender: {gender}</Typography>
             </Grid>
           </Grid>
         </Paper>

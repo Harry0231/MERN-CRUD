@@ -50,7 +50,11 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         toast.success("Login successful");
-        sessionStorage.setItem("username", data.user.name);
+        sessionStorage.setItem("name", data.user.name);
+        sessionStorage.setItem("email", data.user.email);
+        sessionStorage.setItem("gender", data.user.gender);
+        sessionStorage.setItem("phone", data.user.phone);
+        sessionStorage.setItem("address", data.user.address);
         navigate("/");
       } else {
         const errorData = await response.json();
