@@ -59,6 +59,7 @@ function AppHeader() {
     sessionStorage.removeItem("address");
     sessionStorage.removeItem("phone");
     sessionStorage.removeItem("gender");
+    sessionStorage.removeItem("profilePic");
     toast.success(`${displayUsername} Logout successful`);
     navigate("/login");
   };
@@ -116,7 +117,15 @@ function AppHeader() {
                     sx={{ p: 0 }}
                   >
                     <Avatar
-                      src={`https://ui-avatars.com/api/?name=${encodeURIComponent(displayUsername)}&size=40`}
+                      src={
+                        sessionStorage.getItem("profilePic")
+                          ? `data:image/jpeg;base64,${sessionStorage.getItem(
+                              "profilePic"
+                            )}`
+                          : `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                              displayUsername
+                            )}&size=40`
+                      }
                       alt="User Avatar"
                     />
                   </IconButton>

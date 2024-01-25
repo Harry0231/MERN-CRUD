@@ -19,13 +19,14 @@ const Register = () => {
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("");
   const [loading, setLoading] = useState(false);
+  const [profilePic, setProfilePic] = useState(null);
 
   const navigate = useNavigate();
 
   const isValidate = () => {
     let isProceed = true;
     let errorMessage = "Please enter a value in ";
-    
+
     if (!name) {
       isProceed = false;
       errorMessage += "Full Name";
@@ -50,6 +51,11 @@ const Register = () => {
     return isProceed;
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setProfilePic(file);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,22 +66,25 @@ const Register = () => {
     setLoading(true);
 
     try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("password", password);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("address", address);
+      formData.append("gender", gender);
+      if (profilePic) {
+        formData.append("profilePic", profilePic);
+      }
+
       const response = await fetch("http://localhost:8080/register", {
         method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          name,
-          password,
-          email,
-          phone,
-          address,
-          gender,
-        }),
+        body: formData,
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         toast.success("Registered successfully.");
         navigate("/login");
       } else {
@@ -141,6 +150,13 @@ const Register = () => {
                 margin="normal"
                 multiline
                 rows={3}
+              />
+              <TextField
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange} 
+                fullWidth
+                margin="normal"
               />
               <RadioGroup
                 row

@@ -20,7 +20,18 @@ export const registerController = async (req, res) => {
       });
     }
 
+    // Check if file is provided
+    if (!req.file) {
+      return res.status(400).send({ message: "Profile picture is required" });
+    }
+
+    // Handle image upload
+    const profilePic = req.file.buffer;
+
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10); 
+
+    // Save user with image
     const data = await new userModel({
       name,
       email,
@@ -28,6 +39,7 @@ export const registerController = async (req, res) => {
       address,
       password: hashedPassword,
       gender,
+      profilePic,
     }).save();
 
     res.status(201).send({
@@ -80,6 +92,7 @@ export const loginController = async (req, res) => {
         phone: user.phone,
         address: user.address,
         gender: user.gender,
+        profilePic: user.profilePic ? user.profilePic.toString('base64') : null,
       },
     });
   } catch (error) {

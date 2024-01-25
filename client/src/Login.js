@@ -31,13 +31,13 @@ const Login = () => {
 
   const proceedLogin = async (e) => {
     e.preventDefault();
-  
+
     if (!validate()) {
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const response = await fetch("http://localhost:8080/login", {
         method: "POST",
@@ -47,14 +47,18 @@ const Login = () => {
           password,
         }),
       });
+
       if (response.ok) {
         const data = await response.json();
+
         toast.success("Login successful");
         sessionStorage.setItem("name", data.user.name);
         sessionStorage.setItem("email", data.user.email);
         sessionStorage.setItem("gender", data.user.gender);
         sessionStorage.setItem("phone", data.user.phone);
         sessionStorage.setItem("address", data.user.address);
+        sessionStorage.setItem("profilePic", data.user.profilePic);
+
         navigate("/");
       } else {
         const errorData = await response.json();
@@ -67,7 +71,6 @@ const Login = () => {
       setLoading(false);
     }
   };
-
   return (
     <div
       className="row"

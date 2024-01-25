@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Typography, Box, Paper, Grid } from "@mui/material";
+import { Typography, Box, Paper, Grid, Avatar } from "@mui/material";
 import Button from "@mui/material/Button";
 
 const Profile = () => {
-  // Retrive users detail from session storage
-
+  // Retrieve user details from session storage
   const name = sessionStorage.getItem("name");
   const email = sessionStorage.getItem("email");
   const phone = sessionStorage.getItem("phone");
   const gender = sessionStorage.getItem("gender");
   const address = sessionStorage.getItem("address");
+  const profilePic = sessionStorage.getItem("profilePic");
 
   return (
     <Box
@@ -26,6 +26,15 @@ const Profile = () => {
       {name ? (
         <Paper elevation={3} style={{ padding: "20px", maxWidth: "600px" }}>
           <Grid container spacing={2}>
+            <Grid item xs={12}>
+              {profilePic && (
+                <Avatar
+                  src={`data:image/jpeg;base64,${profilePic}`}
+                  alt="User Avatar"
+                  style={{ width: 100, height: 100 }}
+                />
+              )}
+            </Grid>
             <Grid item xs={12}>
               <Typography variant="body1">Full Name: {name}</Typography>
             </Grid>
