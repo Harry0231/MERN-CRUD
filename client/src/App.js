@@ -196,8 +196,7 @@ function CustomToolbar({ onResetSorting }) {
         startIcon={<RefreshIcon />}
         style={{
           fontWeight: "bold",
-          marginLeft: "241%",
-          marginTop: "-10%",
+          marginLeft: "auto", 
         }}
       >
         Reset
@@ -205,5 +204,6 @@ function CustomToolbar({ onResetSorting }) {
     </GridToolbarContainer>
   );
 }
+
 
 export default App;

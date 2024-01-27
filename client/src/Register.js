@@ -10,6 +10,8 @@ import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -20,6 +22,7 @@ const Register = () => {
   const [gender, setGender] = useState("");
   const [loading, setLoading] = useState(false);
   const [profilePic, setProfilePic] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
@@ -49,6 +52,10 @@ const Register = () => {
       }
     }
     return isProceed;
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleFileChange = (e) => {
@@ -122,11 +129,24 @@ const Register = () => {
               />
               <TextField
                 label="Password *"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 fullWidth
                 margin="normal"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
                 label="Email *"
@@ -152,11 +172,15 @@ const Register = () => {
                 rows={3}
               />
               <TextField
+                label="Upload Profile"
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange} 
                 fullWidth
                 margin="normal"
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <RadioGroup
                 row
