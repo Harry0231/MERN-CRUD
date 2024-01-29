@@ -21,7 +21,7 @@ app.use("/", userRoute);
 app.use("/", dataRoute);
 
 // Port
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
 
 // Run Server
 app.listen(PORT, () => {

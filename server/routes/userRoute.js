@@ -5,7 +5,6 @@ import {
 } from "../controllers/userController.js";
 import multer from 'multer';
 
-
 const router = express.Router();
 
 // Set up multer storage

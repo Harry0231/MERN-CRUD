@@ -60,7 +60,6 @@ export const updateDataController = async (req, res) => {
   }
 };
 
-
 export const deleteDataController = async (req, res) => {
   const { id } = req.params;
   try {
